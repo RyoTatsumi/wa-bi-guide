@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wa-Bi Guide 🇯🇵</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Leaflet MarkerCluster -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'japan-blue': '#1e3b7a', // Ai-iro (Indigo)
+              'kintsugi-gold': '#c5a059', // Gold for repair
+              'washi-white': '#fcfaf2', // Japanese paper
+              'sumi-black': '#2b2b2b', // Ink black
+            },
+            fontFamily: {
+              serif: ['"Zen Old Mincho"', '"Noto Serif JP"', 'serif'],
+              sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'],
+            },
+            backgroundImage: {
+              'washi-pattern': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'bounce-slight': 'bounceSlight 2s infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              bounceSlight: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #fcfaf2;
+        color: #2b2b2b;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c5a059;
+        border-radius: 3px;
+      }
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+      }
+      /* Leaflet Custom Overrides for Zen Look */
+      .leaflet-container {
+        background: #fcfaf2 !important;
+        font-family: "Zen Old Mincho", serif !important;
+      }
+      .zen-map-tiles {
+        filter: sepia(0.2) contrast(1.05) saturate(0.8);
+      }
+      /* Marker Cluster Customization */
+      .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+        background-color: rgba(30, 59, 122, 0.2) !important;
+      }
+      .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+        background-color: rgba(30, 59, 122, 0.6) !important;
+        color: white !important;
+        font-family: serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "d3": "https://aistudiocdn.com/d3@^7.9.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

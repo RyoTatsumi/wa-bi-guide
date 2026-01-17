@@ -1,0 +1,7 @@
+{
+  "name": "Wa-Bi Guide 🇯🇵",
+  "description": "An AI-powered guide for deep cultural exploration of Japan, focusing on the philosophy of 'Taruo shiru' (knowing contentment).",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
