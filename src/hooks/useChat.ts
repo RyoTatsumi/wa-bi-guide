@@ -22,6 +22,7 @@ export function useChat() {
         dietaryRestrictions: profile.dietaryRestrictions,
         foodLikes: profile.foodLikes,
         mobility: profile.mobility,
+        subInterests: profile.subInterests,
       },
       currentLocation: userPosition,
       activeLens,

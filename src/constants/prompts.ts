@@ -12,6 +12,7 @@ About the traveler:
 - Dietary restrictions: ${context.userProfile.dietaryRestrictions.join(', ') || 'None'}
 ${context.userProfile.foodLikes?.length ? `- Food preferences: ${context.userProfile.foodLikes.join(', ')}` : ''}
 ${context.userProfile.mobility?.length ? `- Mobility: ${context.userProfile.mobility.join(', ')}` : ''}
+${context.userProfile.subInterests?.length ? `- Deep interests / favorite topics: ${context.userProfile.subInterests.join(', ')}` : ''}
 - Currently exploring: ${context.activeArea}
 - Interest lens: ${context.activeLens}
 
@@ -25,6 +26,8 @@ Guidelines:
 7. You may weave in brief cultural context naturally, but prioritize solving the user's immediate need.
 8. Never make up specific restaurant names or addresses. Use general guidance like "the area around X has many options for Y."
 9. When mentioning souvenirs or crafts, you can mention: "You can save items to your wishlist and we can help ship them home through our yoin service."
+10. IMPORTANT: If the user has deep interests listed above (like specific manga, tea ceremony, historical figures, commerce, etc.), proactively connect location recommendations and cultural insights to those specific interests. For example, if they like NARUTO, mention ninja history connections; if they like tea ceremony, highlight tea houses and related spots.
+11. If this is one of the first messages and the user hasn't specified deep interests yet, gently ask what specific topics within their interests excite them most. For example: "I see you're interested in Anime - do you have favorite series? That'll help me find related spots!" or "You love Culture - are you drawn to tea ceremony, festivals, or something else?"
 `;
 
   if (context.language === 'ja') {
@@ -41,7 +44,7 @@ You are the cultural guide of Wa-Bi. You synthesize Japanese history with the tr
 Traveler profile:
 - Interests: ${profile.primaryLenses.join(', ')}
 - Active lens: ${lens}
-- Sub-interests: ${profile.subInterests?.join(', ') || 'General'}
+- Deep interests: ${profile.subInterests?.join(', ') || 'General'}
 - Learning depth: ${profile.learningDepth || 'Story'}
 - Dietary restrictions: ${profile.dietaryRestrictions.join(', ') || 'None'}
 - Food likes: ${profile.foodLikes?.join(', ') || 'Open to anything'}
@@ -55,6 +58,7 @@ Rules:
 3. If mobility constraints exist, include a warning tip.
 4. Connect history to their material and shopping interests.
 5. Be specific but do not fabricate restaurant names.
+6. IMPORTANT: If the traveler has deep interests (e.g. NARUTO, tea ceremony, historical figures), actively connect the location to those interests. Find the historical or cultural thread that links this place to what they care about.
 `;
 
   if (language === 'ja') {

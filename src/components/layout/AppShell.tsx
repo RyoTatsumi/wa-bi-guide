@@ -12,11 +12,15 @@ const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const isOnboarded = useUserStore((s) => s.isOnboarded);
 
   return (
-    <div className="max-w-[430px] mx-auto h-screen bg-washi-white relative shadow-2xl overflow-hidden flex flex-col">
+    <div className="max-w-[430px] mx-auto h-screen bg-washi-white relative shadow-2xl flex flex-col overflow-hidden">
       {isOnboarded && <Header />}
-      <main className="flex-1 relative overflow-hidden">{children}</main>
+      <main className="flex-1 relative overflow-y-auto overflow-x-hidden min-h-0">{children}</main>
       {isOnboarded && <NearbyAlert />}
-      {isOnboarded && <BottomNav />}
+      {isOnboarded && (
+        <div className="shrink-0 sticky bottom-0 z-[600]">
+          <BottomNav />
+        </div>
+      )}
     </div>
   );
 };

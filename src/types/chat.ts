@@ -13,6 +13,7 @@ export interface ConversationContext {
     dietaryRestrictions: string[];
     foodLikes?: string[];
     mobility?: string[];
+    subInterests?: string[];
   };
   currentLocation: { lat: number; lng: number } | null;
   activeLens: string;

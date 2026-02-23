@@ -54,7 +54,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ onLocationSelect }) => {
       maxZoom: 19,
     }).addTo(map);
 
-    L.control.zoom({ position: 'topright' }).addTo(map);
+    L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
     mapInstanceRef.current = map;
 
