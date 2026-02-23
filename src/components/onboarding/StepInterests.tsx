@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LENS_OPTIONS } from '../../constants';
 import { useUserStore } from '../../stores';
 import { InterestCategory } from '../../types';
+import { useTranslation } from '../../i18n';
 
 interface StepInterestsProps {
   onComplete: () => void;
@@ -9,6 +10,7 @@ interface StepInterestsProps {
 
 const StepInterests: React.FC<StepInterestsProps> = ({ onComplete }) => {
   const { profile, updateProfile } = useUserStore();
+  const { t } = useTranslation();
   const [selectedLenses, setSelectedLenses] = useState<InterestCategory[]>(
     profile.primaryLenses
   );
@@ -33,9 +35,9 @@ const StepInterests: React.FC<StepInterestsProps> = ({ onComplete }) => {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-serif text-japan-blue font-bold">
-          What draws you to Japan?
+          {t('onboarding.interestsTitle')}
         </h1>
-        <p className="text-sm text-zen-gray mt-1">Pick up to 3 interests</p>
+        <p className="text-sm text-zen-gray mt-1">{t('onboarding.interestsSubtitle')}</p>
       </div>
 
       {/* Lens Grid */}
@@ -67,7 +69,7 @@ const StepInterests: React.FC<StepInterestsProps> = ({ onComplete }) => {
         disabled={selectedLenses.length === 0}
         className="w-full py-4 bg-japan-blue text-white font-serif rounded-lg text-base tracking-wider disabled:opacity-40 transition-opacity"
       >
-        Start Exploring
+        {t('onboarding.startExploring')}
       </button>
     </div>
   );

@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { useUserStore, useAppStore } from '../../stores';
 import { LOCATIONS } from '../../constants';
 import { Location } from '../../types';
+import { useTranslation } from '../../i18n';
 
 /**
  * Finds the nearest location matching the user's active lens.
@@ -46,6 +47,7 @@ function findNearestMatchingLocation(
 }
 
 const TodaysWhisper: React.FC = () => {
+  const { t } = useTranslation();
   const profile = useUserStore((s) => s.profile);
   const userPosition = useAppStore((s) => s.userPosition);
   const activeLens = useAppStore((s) => s.activeLens);
@@ -63,7 +65,7 @@ const TodaysWhisper: React.FC = () => {
     <div className="p-5 bg-white border border-gray-100 rounded-xl shadow-sm">
       {/* Section label */}
       <div className="text-xs text-kintsugi-gold uppercase tracking-widest font-bold mb-3">
-        Nearby Discovery
+        {t('home.todaysWhisper')}
       </div>
 
       {/* Location info */}
@@ -83,7 +85,7 @@ const TodaysWhisper: React.FC = () => {
         onClick={() => navigateToLocation(location)}
         className="inline-flex items-center gap-1 text-japan-blue text-xs font-bold"
       >
-        Learn More
+        {t('home.learnMore')}
         <ChevronRight size={14} />
       </button>
     </div>

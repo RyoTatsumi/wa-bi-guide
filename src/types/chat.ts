@@ -17,4 +17,5 @@ export interface ConversationContext {
   currentLocation: { lat: number; lng: number } | null;
   activeLens: string;
   activeArea: string;
+  language: 'en' | 'ja';
 }

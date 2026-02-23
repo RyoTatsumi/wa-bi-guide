@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 interface ChatInputProps {
   onSend: (text: string) => void;
@@ -7,6 +8,7 @@ interface ChatInputProps {
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSend, disabled }) => {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -50,7 +52,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend, disabled }) => {
         value={input}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Ask about Japan..."
+        placeholder={t('chat.placeholder')}
         rows={1}
         disabled={disabled}
         className="flex-1 resize-none border border-gray-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-japan-blue transition-colors"

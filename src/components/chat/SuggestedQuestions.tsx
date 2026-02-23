@@ -1,20 +1,23 @@
 import React from 'react';
+import { useTranslation } from '../../i18n';
 
 interface SuggestedQuestionsProps {
   onSelect: (question: string) => void;
 }
 
-const QUESTIONS = [
-  'Where should I eat nearby?',
-  "What's the etiquette here?",
-  'Recommend something off the beaten path',
-  'Help me with transportation',
-];
-
 const SuggestedQuestions: React.FC<SuggestedQuestionsProps> = ({ onSelect }) => {
+  const { t } = useTranslation();
+
+  const questions = [
+    t('chat.q1'),
+    t('chat.q2'),
+    t('chat.q3'),
+    t('chat.q4'),
+  ];
+
   return (
     <div className="flex flex-wrap gap-2 px-4 py-3">
-      {QUESTIONS.map((q) => (
+      {questions.map((q) => (
         <button
           key={q}
           onClick={() => onSelect(q)}

@@ -1,8 +1,10 @@
 import React from 'react';
 import { ExternalLink, Package } from 'lucide-react';
 import { useAppStore } from '../../stores';
+import { useTranslation } from '../../i18n';
 
 const QuickLinks: React.FC = () => {
+  const { t } = useTranslation();
   const setSubView = useAppStore((s) => s.setSubView);
 
   return (
@@ -14,14 +16,14 @@ const QuickLinks: React.FC = () => {
         className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-full text-xs font-bold whitespace-nowrap"
       >
         <ExternalLink size={14} />
-        Book a Guide
+        {t('home.bookGuide')}
       </a>
       <button
         onClick={() => setSubView('lens')}
         className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-full text-xs font-bold whitespace-nowrap"
       >
         <Package size={14} />
-        Ship Souvenirs
+        {t('home.shipSouvenirs')}
       </button>
     </div>
   );

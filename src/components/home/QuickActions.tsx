@@ -1,37 +1,39 @@
 import React from 'react';
 import { Map, Utensils, ShoppingBag, MessageSquare } from 'lucide-react';
 import { useAppStore } from '../../stores';
+import { useTranslation } from '../../i18n';
 
 const QuickActions: React.FC = () => {
+  const { t } = useTranslation();
   const setTab = useAppStore((s) => s.setTab);
   const setSubView = useAppStore((s) => s.setSubView);
 
   const actions = [
     {
       icon: Map,
-      title: 'Explore',
-      description: 'Discover nearby places',
+      title: t('home.explore'),
+      description: t('home.exploreDesc'),
       onClick: () => setTab('map'),
       bgClass: 'bg-blue-50 border-blue-100',
     },
     {
       icon: Utensils,
-      title: 'Eat',
-      description: 'Find restaurants',
+      title: t('home.eat'),
+      description: t('home.eatDesc'),
       onClick: () => setTab('chat'), // pre-fill food context
       bgClass: 'bg-orange-50 border-orange-100',
     },
     {
       icon: ShoppingBag,
-      title: 'Shop',
-      description: 'Souvenirs & crafts',
+      title: t('home.shop'),
+      description: t('home.shopDesc'),
       onClick: () => setSubView('lens'),
       bgClass: 'bg-amber-50 border-amber-100',
     },
     {
       icon: MessageSquare,
-      title: 'Help Me',
-      description: 'Ask anything',
+      title: t('home.helpMe'),
+      description: t('home.helpMeDesc'),
       onClick: () => setTab('chat'),
       bgClass: 'bg-green-50 border-green-100',
     },

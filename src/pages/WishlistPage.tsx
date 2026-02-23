@@ -1,8 +1,10 @@
 import React from 'react';
 import { ArrowLeft, Trash2, Package, Heart } from 'lucide-react';
 import { useAppStore, useWishlistStore } from '../stores';
+import { useTranslation } from '../i18n';
 
 const WishlistPage: React.FC = () => {
+  const { t } = useTranslation();
   const { setSubView } = useAppStore();
   const { items, removeItem } = useWishlistStore();
 
@@ -13,7 +15,7 @@ const WishlistPage: React.FC = () => {
           <ArrowLeft size={22} />
         </button>
         <div className="text-center">
-          <p className="text-lg text-japan-blue font-serif font-bold">My Wishlist</p>
+          <p className="text-lg text-japan-blue font-serif font-bold">{t('wishlist.title')}</p>
         </div>
         <div className="w-6" />
       </header>
@@ -22,15 +24,15 @@ const WishlistPage: React.FC = () => {
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <Heart size={48} className="text-gray-200 mb-4" />
-            <p className="text-base font-serif text-sumi-black mb-2">No items saved yet</p>
+            <p className="text-base font-serif text-sumi-black mb-2">{t('wishlist.empty')}</p>
             <p className="text-sm text-zen-gray">
-              Use the Wa-Bi Lens to scan souvenirs and save them here for later
+              {t('wishlist.emptyDesc')}
             </p>
           </div>
         ) : (
           <>
             <p className="text-xs text-zen-gray uppercase tracking-wider font-bold">
-              {items.length} item{items.length !== 1 ? 's' : ''} saved
+              {t('wishlist.itemsSaved', { count: items.length })}
             </p>
             {items.map((item) => (
               <div key={item.id} className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
@@ -66,7 +68,7 @@ const WishlistPage: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex-1 py-2 bg-kintsugi-gold text-white text-xs font-bold rounded-lg flex items-center justify-center gap-2"
                   >
-                    <Package size={14} /> Buy on yoin
+                    <Package size={14} /> {t('wishlist.buyOnYoin')}
                   </a>
                   <button
                     onClick={() => removeItem(item.id)}

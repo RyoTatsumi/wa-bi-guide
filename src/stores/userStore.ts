@@ -8,6 +8,7 @@ interface UserState {
   tripStartDate: string | null;
   updateProfile: (partial: Partial<UserProfile>) => void;
   toggleArrayField: (field: keyof UserProfile, value: string) => void;
+  dismissPrompt: (promptType: string) => void;
   completeOnboarding: () => void;
   resetProfile: () => void;
   getDayCount: () => number;
@@ -31,6 +32,14 @@ export const useUserStore = create<UserState>()(
             : [...current, value];
           return { profile: { ...s.profile, [field]: next } };
         }),
+
+      dismissPrompt: (promptType) =>
+        set((s) => ({
+          profile: {
+            ...s.profile,
+            dismissedPrompts: [...(s.profile.dismissedPrompts || []), promptType],
+          },
+        })),
 
       completeOnboarding: () =>
         set({ isOnboarded: true, tripStartDate: new Date().toISOString() }),

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Navigation } from 'lucide-react';
 import { useAppStore } from '../stores';
+import { useTranslation } from '../i18n';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { Location } from '../types';
 import MapCanvas from '../components/map/MapCanvas';
@@ -12,6 +13,7 @@ import BookingPage from './BookingPage';
 import LensPage from './LensPage';
 
 const MapPage: React.FC = () => {
+  const { t } = useTranslation();
   const subView = useAppStore((s) => s.subView);
   const selectedLocation = useAppStore((s) => s.selectedLocation);
   const setSelectedLocation = useAppStore((s) => s.setSelectedLocation);
@@ -62,7 +64,7 @@ const MapPage: React.FC = () => {
 
       <div className="absolute bottom-4 left-0 right-0 flex justify-center z-[300] pointer-events-none">
         <span className="text-xs text-zen-gray/70 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
-          Zoom in to discover hidden gems
+          {t('map.zoomHint')}
         </span>
       </div>
     </div>

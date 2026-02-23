@@ -5,4 +5,5 @@ export type SubView =
   | 'location-detail'
   | 'booking'
   | 'lens'
-  | 'wishlist';
+  | 'wishlist'
+  | 'journal';

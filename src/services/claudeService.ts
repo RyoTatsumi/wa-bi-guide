@@ -62,7 +62,7 @@ Provide a response in JSON format with these fields:
     const text = await callClaude({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
-      system: buildLocationSystemPrompt(profile, activeLens),
+      system: buildLocationSystemPrompt(profile, activeLens, profile.language),
       messages: [{ role: 'user', content: prompt }],
     });
 
@@ -91,7 +91,7 @@ export async function analyzeSouvenirImage(
     const text = await callClaude({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: buildLensSystemPrompt(),
+      system: buildLensSystemPrompt(profile.language),
       messages: [
         {
           role: 'user',

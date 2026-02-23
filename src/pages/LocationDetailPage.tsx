@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ArrowLeft, Sparkles, BookOpen, ShoppingBag, Utensils, Store, AlertCircle, Info, Heart } from 'lucide-react';
 import { useAppStore, useLocationStore } from '../stores';
 import { generateLocationContent } from '../services';
 import { useUserStore } from '../stores';
+import { useTranslation } from '../i18n';
+import { useAutoJournal } from '../hooks/useAutoJournal';
 import { PhilosophyContent } from '../types';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
 
 const LocationDetailPage: React.FC = () => {
+  const { t } = useTranslation();
+  const { logVisit, logFavorite } = useAutoJournal();
   const { selectedLocation, activeLens, setSubView } = useAppStore();
   const profile = useUserStore((s) => s.profile);
   const { markVisited, toggleFavorite, favoriteIds } = useLocationStore();
   const [content, setContent] = useState<PhilosophyContent | null>(null);
   const [loading, setLoading] = useState(true);
+  const visitLoggedRef = useRef<string | null>(null);
 
   const location = selectedLocation;
 
@@ -19,6 +24,10 @@ const LocationDetailPage: React.FC = () => {
     if (!location) return;
     setLoading(true);
     markVisited(location.id);
+    if (visitLoggedRef.current !== location.id) {
+      logVisit(location.id, location.name, location.kanji);
+      visitLoggedRef.current = location.id;
+    }
     generateLocationContent(location, profile, activeLens)
       .then(setContent)
       .finally(() => setLoading(false));
@@ -45,7 +54,12 @@ const LocationDetailPage: React.FC = () => {
           <ArrowLeft size={22} />
         </button>
         <button
-          onClick={() => toggleFavorite(location.id)}
+          onClick={() => {
+            toggleFavorite(location.id);
+            if (!isFav) {
+              logFavorite(location.id, location.name);
+            }
+          }}
           className={`absolute top-5 right-5 p-2 rounded-full backdrop-blur-md shadow-lg ${isFav ? 'bg-red-500 text-white' : 'bg-white/90 text-zen-gray'}`}
         >
           <Heart size={22} fill={isFav ? 'currentColor' : 'none'} />
@@ -60,7 +74,7 @@ const LocationDetailPage: React.FC = () => {
       <div className="px-6 py-8 space-y-8">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <LoadingSpinner message="Finding something special for you..." />
+            <LoadingSpinner message={t('location.loading')} />
           </div>
         ) : (
           <div className="animate-slide-up space-y-8">
@@ -73,7 +87,7 @@ const LocationDetailPage: React.FC = () => {
             <div className="relative p-6 border-l-4 border-kintsugi-gold bg-white shadow-md rounded-lg">
               <div className="flex items-center gap-2 mb-4 text-kintsugi-gold font-bold text-xs uppercase tracking-wider">
                 <Sparkles size={18} />
-                <span>Personalized for You</span>
+                <span>{t('location.personalizedForYou')}</span>
               </div>
               <p className="text-sumi-black font-serif text-lg leading-relaxed italic">
                 {content?.personalLensText}
@@ -86,7 +100,7 @@ const LocationDetailPage: React.FC = () => {
                 <div className="p-4 bg-red-50 border border-red-100 rounded-lg flex gap-3 items-start">
                   <AlertCircle className="text-red-700 shrink-0 mt-0.5" size={20} />
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-red-800">Accessibility Note</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-red-800">{t('location.accessibilityNote')}</span>
                     <p className="text-sm font-serif italic text-red-900 mt-1">{content.personalizedTips.warning}</p>
                   </div>
                 </div>
@@ -95,7 +109,7 @@ const LocationDetailPage: React.FC = () => {
                 {content?.personalizedTips.food && (
                   <div className="p-4 bg-orange-50 border border-orange-100 rounded-lg">
                     <div className="flex items-center gap-2 text-orange-800 font-bold text-xs uppercase tracking-wider mb-2">
-                      <Utensils size={16} /><span>Where to Eat</span>
+                      <Utensils size={16} /><span>{t('location.whereToEat')}</span>
                     </div>
                     <p className="text-sm font-serif italic text-orange-900">{content.personalizedTips.food}</p>
                   </div>
@@ -103,7 +117,7 @@ const LocationDetailPage: React.FC = () => {
                 {content?.personalizedTips.shopping && (
                   <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
                     <div className="flex items-center gap-2 text-blue-800 font-bold text-xs uppercase tracking-wider mb-2">
-                      <Store size={16} /><span>What to Find</span>
+                      <Store size={16} /><span>{t('location.whatToFind')}</span>
                     </div>
                     <p className="text-sm font-serif italic text-blue-900">{content.personalizedTips.shopping}</p>
                   </div>
@@ -114,14 +128,14 @@ const LocationDetailPage: React.FC = () => {
             {/* History */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-japan-blue font-bold text-xs uppercase tracking-wider border-b border-gray-100 pb-3">
-                <Info size={16} /><span>History & Context</span>
+                <Info size={16} /><span>{t('location.historyContext')}</span>
               </div>
               <p className="text-sumi-black font-serif leading-relaxed text-base">{content?.historicalContext}</p>
             </div>
 
             {/* Philosophy */}
             <div className="py-10 px-6 border-y border-gray-100 bg-japan-blue/[0.03] text-center rounded-lg">
-              <span className="text-xs text-zen-gray uppercase tracking-widest block mb-4">Knowing Contentment</span>
+              <span className="text-xs text-zen-gray uppercase tracking-widest block mb-4">{t('location.knowingContentment')}</span>
               <p className="text-xl font-serif text-japan-blue italic">"{content?.taruWoShiruLesson}"</p>
             </div>
 
@@ -132,14 +146,14 @@ const LocationDetailPage: React.FC = () => {
                 className="w-full py-4 bg-japan-blue text-white font-serif text-base rounded-lg shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
               >
                 <BookOpen size={20} className="text-kintsugi-gold" />
-                Book a Local Guide
+                {t('location.bookLocalGuide')}
               </button>
               <button
                 onClick={() => setSubView('lens')}
                 className="w-full py-3.5 border-2 border-sumi-black text-sumi-black font-serif text-sm flex items-center justify-center gap-3 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 <ShoppingBag size={18} />
-                Scan Souvenirs Nearby
+                {t('location.scanSouvenirs')}
               </button>
             </div>
           </div>

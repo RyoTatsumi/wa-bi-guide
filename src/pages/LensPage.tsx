@@ -2,9 +2,13 @@ import React, { useState, useRef } from 'react';
 import { ArrowLeft, Camera, Sparkles, Package, Heart, Loader2 } from 'lucide-react';
 import { useAppStore, useUserStore, useWishlistStore } from '../stores';
 import { analyzeSouvenirImage } from '../services';
+import { useTranslation } from '../i18n';
+import { useAutoJournal } from '../hooks/useAutoJournal';
 import { SouvenirAnalysis } from '../types';
 
 const LensPage: React.FC = () => {
+  const { t } = useTranslation();
+  const { logLensDiscovery } = useAutoJournal();
   const { setSubView } = useAppStore();
   const profile = useUserStore((s) => s.profile);
   const { addItem } = useWishlistStore();
@@ -33,6 +37,9 @@ const LensPage: React.FC = () => {
       const result = await analyzeSouvenirImage(base64, profile);
       setAnalysis(result);
       setLoading(false);
+      if (result) {
+        logLensDiscovery(result.name);
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -57,7 +64,7 @@ const LensPage: React.FC = () => {
           <ArrowLeft size={22} />
         </button>
         <div className="text-center">
-          <p className="text-lg text-japan-blue font-serif font-bold">Wa-Bi Lens</p>
+          <p className="text-lg text-japan-blue font-serif font-bold">{t('lens.title')}</p>
         </div>
         <div className="w-6" />
       </header>
@@ -69,16 +76,16 @@ const LensPage: React.FC = () => {
             <>
               <div className="p-8 border-2 border-dashed border-gray-300 rounded-xl bg-white">
                 <Camera size={48} className="mx-auto text-zen-gray mb-4" />
-                <p className="text-sm text-sumi-black font-bold mb-1">Scan a Souvenir</p>
+                <p className="text-sm text-sumi-black font-bold mb-1">{t('lens.scanSouvenir')}</p>
                 <p className="text-xs text-zen-gray">
-                  Take a photo or upload an image of any Japanese craft or souvenir
+                  {t('lens.scanDescription')}
                 </p>
               </div>
               <button
                 onClick={() => fileRef.current?.click()}
                 className="w-full py-4 bg-japan-blue text-white font-serif text-base rounded-lg shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
               >
-                <Camera size={20} /> Take Photo
+                <Camera size={20} /> {t('lens.takePhoto')}
               </button>
             </>
           ) : (
@@ -88,7 +95,7 @@ const LensPage: React.FC = () => {
                 onClick={() => { setImagePreview(null); setAnalysis(null); setSaved(false); }}
                 className="absolute top-3 right-3 px-3 py-1.5 bg-white/90 rounded-full text-xs font-bold text-sumi-black backdrop-blur-md"
               >
-                Retake
+                {t('lens.retake')}
               </button>
             </div>
           )}
@@ -106,7 +113,7 @@ const LensPage: React.FC = () => {
         {loading && (
           <div className="flex flex-col items-center py-8 animate-fade-in">
             <Loader2 size={32} className="text-kintsugi-gold animate-spin mb-3" />
-            <p className="text-sm text-zen-gray font-serif italic">Analyzing craftsmanship...</p>
+            <p className="text-sm text-zen-gray font-serif italic">{t('lens.analyzing')}</p>
           </div>
         )}
 
@@ -123,20 +130,20 @@ const LensPage: React.FC = () => {
 
               <div className="space-y-3 pt-2">
                 <div>
-                  <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">History</span>
+                  <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">{t('lens.history')}</span>
                   <p className="text-sm text-sumi-black mt-1">{analysis.history}</p>
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">Craftsmanship</span>
+                  <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">{t('lens.craftsmanship')}</span>
                   <p className="text-sm text-sumi-black mt-1">{analysis.craftsmanship}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">Materials</span>
+                    <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">{t('lens.materials')}</span>
                     <p className="text-sm text-sumi-black mt-1">{analysis.materials.join(', ')}</p>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">Est. Price</span>
+                    <span className="text-xs font-bold text-zen-gray uppercase tracking-wider">{t('lens.estPrice')}</span>
                     <p className="text-sm font-bold text-japan-blue mt-1">{analysis.estimatedPrice}</p>
                   </div>
                 </div>
@@ -151,7 +158,7 @@ const LensPage: React.FC = () => {
                 rel="noopener noreferrer"
                 className="w-full py-4 bg-kintsugi-gold text-white font-serif text-base rounded-lg shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
               >
-                <Package size={20} /> Ship to Your Country
+                <Package size={20} /> {t('lens.shipToCountry')}
               </a>
               <button
                 onClick={handleSaveToWishlist}
@@ -163,7 +170,7 @@ const LensPage: React.FC = () => {
                 }`}
               >
                 <Heart size={18} fill={saved ? 'currentColor' : 'none'} />
-                {saved ? 'Saved to Wishlist' : 'Save to Wishlist'}
+                {saved ? t('lens.savedToWishlist') : t('lens.saveToWishlist')}
               </button>
             </div>
           </div>

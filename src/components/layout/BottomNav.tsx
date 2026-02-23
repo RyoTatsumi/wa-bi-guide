@@ -1,29 +1,32 @@
 import React from 'react';
 import { Home, Map, MessageSquare, User } from 'lucide-react';
 import { useAppStore, useChatStore } from '../../stores';
+import { useTranslation } from '../../i18n';
 import { TabId } from '../../types';
 
 interface NavTab {
   id: TabId;
-  label: string;
+  labelKey: 'nav.home' | 'nav.map' | 'nav.chat' | 'nav.profile';
   icon: React.FC<{ size?: number; className?: string }>;
 }
 
 const tabs: NavTab[] = [
-  { id: 'home', label: 'Home', icon: Home },
-  { id: 'map', label: 'Map', icon: Map },
-  { id: 'chat', label: 'Chat', icon: MessageSquare },
-  { id: 'profile', label: 'Profile', icon: User },
+  { id: 'home', labelKey: 'nav.home', icon: Home },
+  { id: 'map', labelKey: 'nav.map', icon: Map },
+  { id: 'chat', labelKey: 'nav.chat', icon: MessageSquare },
+  { id: 'profile', labelKey: 'nav.profile', icon: User },
 ];
 
 const BottomNav: React.FC = () => {
+  const { t } = useTranslation();
   const currentTab = useAppStore((s) => s.currentTab);
   const setTab = useAppStore((s) => s.setTab);
   const messageCount = useChatStore((s) => s.messages.length);
 
   return (
     <nav className="h-16 bg-sumi-black flex justify-around items-center">
-      {tabs.map(({ id, label, icon: Icon }) => {
+      {tabs.map(({ id, labelKey, icon: Icon }) => {
+        const label = t(labelKey);
         const isActive = currentTab === id;
         return (
           <button

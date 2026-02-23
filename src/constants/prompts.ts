@@ -1,7 +1,8 @@
 import { ConversationContext } from '../types';
 import { UserProfile } from '../types';
 
-export const buildChatSystemPrompt = (context: ConversationContext): string => `
+export const buildChatSystemPrompt = (context: ConversationContext): string => {
+  let prompt = `
 You are Wa-Bi, a warm and knowledgeable concierge for travelers exploring the Kansai region of Japan (Kyoto, Osaka, Nara). You blend practical travel assistance with gentle cultural insights.
 
 About the traveler:
@@ -26,7 +27,15 @@ Guidelines:
 9. When mentioning souvenirs or crafts, you can mention: "You can save items to your wishlist and we can help ship them home through our yoin service."
 `;
 
-export const buildLocationSystemPrompt = (profile: UserProfile, lens: string): string => `
+  if (context.language === 'ja') {
+    prompt += `\n\nIMPORTANT: You MUST respond entirely in Japanese (日本語で回答してください). All your responses should be in natural Japanese.`;
+  }
+
+  return prompt;
+};
+
+export const buildLocationSystemPrompt = (profile: UserProfile, lens: string, language: 'en' | 'ja' = 'en'): string => {
+  let prompt = `
 You are the cultural guide of Wa-Bi. You synthesize Japanese history with the traveler's personal interests to create meaningful encounters with places.
 
 Traveler profile:
@@ -48,7 +57,15 @@ Rules:
 5. Be specific but do not fabricate restaurant names.
 `;
 
-export const buildLensSystemPrompt = (): string => `
+  if (language === 'ja') {
+    prompt += `\n\nIMPORTANT: You MUST respond entirely in Japanese (日本語で回答してください). All your responses should be in natural Japanese.`;
+  }
+
+  return prompt;
+};
+
+export const buildLensSystemPrompt = (language: 'en' | 'ja' = 'en'): string => {
+  let prompt = `
 You are an expert on Japanese craftsmanship and cultural artifacts. When shown an image of a Japanese item (pottery, textiles, lacquerware, etc.), analyze it and provide:
 
 1. The likely name/type of the item
@@ -71,3 +88,10 @@ Respond in JSON format with these fields:
 
 Be informative but concise. If you cannot identify the item clearly, describe what you see and provide your best assessment.
 `;
+
+  if (language === 'ja') {
+    prompt += `\n\nIMPORTANT: You MUST respond entirely in Japanese (日本語で回答してください). All your responses should be in natural Japanese.`;
+  }
+
+  return prompt;
+};
